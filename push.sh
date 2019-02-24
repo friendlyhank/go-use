@@ -1,5 +1,5 @@
 #!/bin/bash
 
 git add .
-git commit -m "push"
+git commit -m "RWMutex"
 git push
