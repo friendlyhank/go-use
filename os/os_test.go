@@ -1,4 +1,4 @@
-package os
+package main
 
 import (
 	"errors"
@@ -44,16 +44,24 @@ func TestOsSetenv(t *testing.T){
 
 }
 
-//退出当前程序
+//TestOsExit -退出当前程序
 func TestOsExit(t *testing.T){
 	os.Exit(0) //表示成功,退出
 	os.Exit(1) //表示因为错误,退出
 }
 
+//TestOsStdErr -错误输出到控制台
 func TestOsStdErr(t *testing.T){
-	//错误输出到控制台
 	err := errors.New("请求错误")
 	fmt.Fprint(os.Stderr,err)
+}
+
+
+//TestOsHostName - 返回主机名
+func TestOsHostName(t *testing.T){
+	hostname,err := os.Hostname()
+	fmt.Println(hostname)
+	fmt.Println(err)
 }
 
 

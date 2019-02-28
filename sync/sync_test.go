@@ -1,6 +1,7 @@
 package sync
 
 import (
+	"fmt"
 	"testing"
 	"time"
 	"sync"
@@ -59,4 +60,18 @@ func TestRwMutexForR(t *testing.T){
 	go write(9)
 	go read(10)
 	time.Sleep(20 * time.Second)
+}
+
+//sync WaitGroup使用
+func TestSyncWaitGroup(t *testing.T){
+	w := &sync.WaitGroup{}
+
+	go func(){
+		defer w.Done()
+		//w.Add新增如果，没有被消耗掉w.Done会一直进入等待状态w.Wait
+		w.Add(1)
+		fmt.Println("新增一个任务等待执行")
+	}()
+
+	w.Wait()
 }

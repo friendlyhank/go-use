@@ -27,13 +27,24 @@ func FlagSetParse(){
 	2.也支持自定义NewFlagSet etcd
 	go run flag.go --etcd
 
+	3.errorHandling有三个
+	flag.ContinueOnError //错误但是会继续执行程序
+	ExitOnError //错误然后终止程序
+	PanicOnError //错误会抛出异常
+
 	 */
+	 //1.NewFlagSet new一个指令
 	fs := flag.NewFlagSet("etcd",flag.ContinueOnError)
+
+	//2.设置指令
+	fs.String("config","","path to config file")
+	fs.String("log-prefix","[nsqlookupd]","path to config file")
+	fs.Bool("version",false,"path to version")
 	err := fs.Parse(os.Args[1:])
 
 	logs.Info("%v",err)
 
-	//Help指令
+	//3.Help指令
 	if flag.ErrHelp == err {
 		fmt.Println(flagHelp)
 	}
@@ -46,7 +57,18 @@ func FlagSetParse(){
 		logs.Info("%v","无法识别指令")
 	}
 
-	//输出某个具体的指令
+	//4.输出某个具体的指令
 	fmt.Println(fs.Arg(0))
+
+	//5.指定命令输出
+	/**
+		Lookup查询具体某个指令,flag使用map去查询的
+		里面接口的实现比较难理解，以后总结Hank
+	 */
+	if fs.Lookup("version").Value.(flag.Getter).Get().(bool){
+		fmt.Println("nsqlookupd2.0")
+		os.Exit(0)
+	}
+
 }
 
