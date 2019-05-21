@@ -10,7 +10,7 @@ import (
 
 //打开文件
 func TestOsOpen(t *testing.T){
-	file, err := os.Open("test.txt")
+	file, err := os.Open("../test.txt")
 	if err != nil {
 		logs.Info("%v",err)
 	}
@@ -63,6 +63,7 @@ func TestOsHostName(t *testing.T){
 	fmt.Println(hostname)
 	fmt.Println(err)
 }
+
 
 
 

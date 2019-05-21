@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"github.com/astaxie/beego/logs"
 	"runtime"
 	"testing"
+	"time"
 )
 
 /**
@@ -34,8 +36,25 @@ func TestRunTimeNumCPU(t *testing.T){
 }
 
 //设置可执行CPU的数量
-func Test(t *testing.T){
+func TestRuntimeGomaxprocs(t *testing.T){
 	logs.Info("%v",runtime.GOMAXPROCS(0))
+}
+
+func PrintA(){
+	runtime.Gosched()
+	fmt.Println("AAA")
+}
+
+func PrintB(){
+	fmt.Println("BBB")
+}
+
+//释放当前gouroutine,执行下一个gouroutine
+//函数的作用是暂停调用他的Goroutine的运行，调用他的Goroutine会被重新置于Gorunnable状态，并被放入调度器可运行G队列中
+func TestRuntimeGosched(t *testing.T){
+	go PrintA()
+	go PrintB()
+	time.Sleep(10 *time.Second)
 }
 
 

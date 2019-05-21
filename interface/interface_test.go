@@ -30,7 +30,6 @@ func (x *xmiss)Stop(){
 func DoServer(server Server){
 	server.Init()
 	server.Run()
-
 }
 
 //1.TestInterface -接口实现
