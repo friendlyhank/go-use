@@ -75,6 +75,41 @@ func TestOsStdErr(t *testing.T){
 }
 
 
+//=============================================os more=======================================
+//TestFileBasedPipe-管道操作
+func TestFileBasedPipe(t *testing.T){
+	//注意r,w类型都是*File
+	r,w,err := os.Pipe()
+	if err != nil{
+		t.Errorf("%v",err)
+		return
+	}
+
+	//管道操作会阻塞在read or write,具体阻塞在哪取决于哪一个先被求值，这就是开启协程没有结束掉的原因
+	go func() {
+		content := make([]byte,6)
+		var c int
+		c,err = r.Read(content)
+		if err != nil{
+			t.Errorf("%v",err)
+			return
+		}
+
+		t.Logf("%v",c)
+		t.Logf("%v",string(content))
+	}()
+
+	var n int
+	n,err =w.Write([]byte("你好"));
+	if err != nil{
+		t.Errorf("%v",err)
+		return
+	}
+
+	t.Logf("%v",n)
+}
+
+
 
 
 
