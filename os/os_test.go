@@ -99,14 +99,16 @@ func TestFileBasedPipe(t *testing.T){
 		t.Logf("%v",string(content))
 	}()
 
-	var n int
-	n,err =w.Write([]byte("你好"));
-	if err != nil{
-		t.Errorf("%v",err)
-		return
-	}
 
-	t.Logf("%v",n)
+		var n int
+		n,err =w.Write([]byte("你好"))
+		if err != nil{
+			t.Errorf("%v",err)
+			return
+		}
+
+		t.Logf("%v",n)
+
 }
 
 
