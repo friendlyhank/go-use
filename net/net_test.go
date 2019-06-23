@@ -7,6 +7,12 @@ import (
 	"time"
 )
 
+//=============================================net socket=======================================
+
+/**
+*read write  listen.Accept不会保持阻塞的风格，所以要自己建立阻塞
+*/
+
 //TestNetListen -设置本地监听端口
 func TestNetListen(t *testing.T){
 	ln, err := net.Listen("tcp", ":8080")
