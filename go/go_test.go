@@ -6,6 +6,7 @@ import (
 	"time"
 )
 
+//Go传参案例
 func TestForGo(t *testing.T){
 		names := []string{"Eric","Harry","Robert","Jim","Mark"}
 
