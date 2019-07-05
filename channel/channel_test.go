@@ -79,11 +79,19 @@ func TestChannelSyncMap(t *testing.T){
 var strChan =make(chan string,3)
 
 func Receive(strChan <- chan string){
+	//go func(){
+	//	for{
+	//		if relem,ok :=<- strChan ;ok{
+	//			fmt.Println("Receice:",relem,"Receicer")
+	//		}
+	//	}
+	//}()
+
 	go func(){
-		for{
-			if relem,ok :=<- strChan ;ok{
-				fmt.Println("Receice:",relem,"Receicer")
-			}
+		//注意是range strChan,而不是range <- strChan
+		//range 也会阻塞
+		for relem :=range strChan{
+			fmt.Println("Receice:",relem,"Receicer")
 		}
 	}()
 }
@@ -103,4 +111,25 @@ func TestReceiveAndSend(t *testing.T){
 	Send(strChan)
 	Receive(strChan)
 	time.Sleep(2 * time.Second)
+}
+
+//单向通道  <- chan int 接收
+//单向通道 chan <-  int 发送
+//单接收通道和单发送通道和双通道不能互相转化
+//双通道可以作为函数传入到单向通道(如上个例子)
+func TestChannelConv(t *testing.T){
+	var ok bool
+	ch := make(chan int, 1)
+	_, ok = interface{}(ch).(<-chan int)
+	fmt.Println("chan int => <-chan int:", ok)
+	_, ok = interface{}(ch).(chan<- int)
+	fmt.Println("chan int => chan<- int:", ok)
+
+	sch := make(chan<- int, 1)
+	_, ok = interface{}(sch).(chan int)
+	fmt.Println("chan<- int => chan int:", ok)
+
+	rch := make(<-chan int, 1)
+	_, ok = interface{}(rch).(chan int)
+	fmt.Println("<-chan int => chan int:", ok)
 }
