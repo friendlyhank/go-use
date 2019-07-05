@@ -24,6 +24,7 @@ func TestChannelMap(t *testing.T){
 		syncChan <- struct{}{}
 	}()
 	go func() { // 用于演示发送操作。
+
 		countMap := make(map[string]int)
 		for i := 0; i < 5; i++ {
 			mapChan <- countMap
@@ -33,7 +34,6 @@ func TestChannelMap(t *testing.T){
 		close(mapChan)
 		syncChan <- struct{}{}
 	}()
-	<-syncChan
 	<-syncChan
 }
 
@@ -74,4 +74,33 @@ func TestChannelSyncMap(t *testing.T){
 	}()
 	<-syncChan2
 	<-syncChan2
+}
+
+var strChan =make(chan string,3)
+
+func Receive(strChan <- chan string){
+	go func(){
+		for{
+			if relem,ok :=<- strChan ;ok{
+				fmt.Println("Receice:",relem,"Receicer")
+			}
+		}
+	}()
+}
+
+func Send(strChan chan <- string){
+	go func(){
+		for _,elem := range []string{"a","b","c","d"}{
+			strChan <- elem
+			fmt.Println("Sent:",elem,"Sender")
+		}
+		close(strChan)
+	}()
+}
+
+//单通道接收和发送得例子
+func TestReceiveAndSend(t *testing.T){
+	Send(strChan)
+	Receive(strChan)
+	time.Sleep(2 * time.Second)
 }
