@@ -54,25 +54,26 @@ func TestReflectKind(t *testing.T){
 
 //TestReflect -
 func TestReflect(t *testing.T){
-	maps := map[string]string{
-		"a":"1111111",
-		"b":"2222222",
+	mapsUser := map[string]string{
+		"ID":"10000",
+		"Name":"Hank",
+		"Age":"18",
 	}
 
-	structs := &struct {
-		a string
-		b string
+	structUser := &struct {
+		ID string
+		Name string
 	}{
-		a:"1111111",
-		b:"2222222",
+		ID:"1111111",
+		Name:"2222222",
 	}
 
 	sa := "11111111"
 	ia := 151515115
 
 
-	mapv := reflect.ValueOf(maps)
-	structv := reflect.ValueOf(structs)
+	mapv := reflect.ValueOf(mapsUser)
+	structv := reflect.ValueOf(structUser)
 	sav := reflect.ValueOf(sa)
 	iav := reflect.ValueOf(ia)
 
@@ -84,8 +85,8 @@ func TestReflect(t *testing.T){
 	logs.Info("%v",iav)
 
 	//(2)TypeOf用来动态获取输入参数接口中的值的类型，如果接口为空则返回nil
-	mapt := reflect.TypeOf(maps)
-	structt := reflect.TypeOf(structs)
+	mapt := reflect.TypeOf(mapsUser)
+	structt := reflect.TypeOf(structUser)
 	sat := reflect.TypeOf(sa)
 	iat := reflect.TypeOf(ia)
 
@@ -204,8 +205,4 @@ func TestReflectAAA(t *testing.T) {
 
 	logs.Info("%v",structt.Elem().NumField())
 	logs.Info("%v",structt.NumField())
-
-
-
-
 }
