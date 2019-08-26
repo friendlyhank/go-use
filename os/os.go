@@ -15,6 +15,12 @@ func main(){
 
 //输入参数 例如:go run os.go 1 2
 func OsFlag(){
+	/**
+	可以自带参数，进入调试非常有用
+	注意:os.Args[0]是文件信息
+	os.Args =[]string{"os","1","2"}
+	 */
+
 	for idx, args := range os.Args {
 		fmt.Println("参数" + strconv.Itoa(idx) + ":", args)
 	}

@@ -1,23 +1,32 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"testing"
-	"errors"
 )
 
 //=============================================os base=======================================
 
 //打开文件
 func TestOsOpen(t *testing.T){
-	file, err := os.Open("../test.txt")
-	if err != nil {
+	dir, err := os.Open("../test.txt")
+
+	if err != nil{
+		//判断文件是否存在
+		if os.IsNotExist(err){
+			t.Errorf("%v","文件不存在")
+			return
+		}
+
 		t.Errorf("%v",err)
-		return
 	}
-	t.Logf("%v",file.Name())
-	//open file: no such file or directory
+
+	t.Logf("%v",dir.Name())
+
+	//最后要关闭File资源
+	dir.Close()
 }
 
 //环境变量操作
