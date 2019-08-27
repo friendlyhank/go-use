@@ -72,15 +72,15 @@ func TestReflect(t *testing.T){
 	ia := 151515115
 
 
-	mapv := reflect.ValueOf(mapsUser)
-	structv := reflect.ValueOf(structUser)
+	mapUserValue := reflect.ValueOf(mapsUser)
+	structUserValue := reflect.ValueOf(structUser)
 	sav := reflect.ValueOf(sa)
 	iav := reflect.ValueOf(ia)
 
 	//(1)ValueOf用来获取输入参数接口中的数据的值，如果接口为空则返回0
 	fmt.Println("Print  =====valueof=====")
-	logs.Info("%v",mapv)
-	logs.Info("%v",structv)
+	logs.Info("%v",mapUserValue)
+	logs.Info("%v",structUserValue)
 	logs.Info("%v",sav)
 	logs.Info("%v",iav)
 
@@ -98,8 +98,8 @@ func TestReflect(t *testing.T){
 
 	//(3)
 	fmt.Println("Print  =====valueof Kind=====")
-	logs.Info("%v",mapv.Kind())
-	logs.Info("%v",structv.Kind())
+	logs.Info("%v",mapUserValue.Kind())
+	logs.Info("%v",structUserValue.Kind())
 	logs.Info("%v",sav.Kind())
 	logs.Info("%v",iav.Kind())
 
@@ -117,7 +117,7 @@ func TestReflect(t *testing.T){
 	//(6)
 	fmt.Println("Print  =====valueof Elem=====")
 	//logs.Info("%v",mapv.Elem())
-	logs.Info("%v",structv.Elem())
+	logs.Info("%v",structUserValue.Elem())
 	//logs.Info("%v",sav.Elem())   //panic
 	//logs.Info("%v",iav.Elem())	//panic
 
@@ -132,7 +132,7 @@ func TestReflect(t *testing.T){
 	fmt.Println("Print  =====valueof interface=====")
 	//转换的时候，如果转换的类型不完全符合，则直接panic，类型要求非常严格！
 	//转换的时候，要区分是指针还是指
-	convenmap := mapv.Interface().(map[string]string)
+	convenmap := mapUserValue.Interface().(map[string]string)
 	logs.Info("%v",convenmap)
 
 	fmt.Println("Print  =====valueof NumField=====")
@@ -141,7 +141,7 @@ func TestReflect(t *testing.T){
 
 	//logs.Info("%v",mapv.Elem().NumField())  //panic map获取不了下级元素
 	//hank-import
-	logs.Info("%+v",mapv.MapKeys())
+	logs.Info("%+v",mapUserValue.MapKeys())
 
 	logs.Info("%v",structt.Elem().NumField())
 	//logs.Info("%v",sat.Elem().NumField())  //panic string没有下级元素，会异常
@@ -158,7 +158,7 @@ func TestReflect(t *testing.T){
 	fmt.Println("Print  =====valueof MapIndex=====")
 	//hank-import如果是map
 	//mapv.MapIndex(key Value)
-	logs.Info("%v",mapv.MapIndex(mapv.MapKeys()[0]).String())
+	logs.Info("%v",mapUserValue.MapIndex(mapUserValue.MapKeys()[0]).String())
 
 
 	//(10)方法，方法个数
