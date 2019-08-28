@@ -90,7 +90,8 @@ func handleClientRequest(client net.Conn){
 	} else {
 		server.Write(b[:n])
 	}
-	//进行转发
+
+	//进行转发 如何进行转发是重点
 	go io.Copy(server,client)
 	io.Copy(client, server)
 }
