@@ -19,8 +19,10 @@ func TestNetListen(t *testing.T){
 	if err != nil {
 		// handle error
 		t.Errorf("%v",err)
-		}
+	}
+
 	for{
+		//接收每个链接
 		conn,err := ln.Accept()
 		if err != nil{
 			//handle error
