@@ -1,9 +1,21 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net"
 )
+
+
+type Server struct{
+	conn net.Conn
+
+	//接收的消息
+	receverMsg chan string
+	writeMsg chan string
+
+	exit bool
+}
 
 /**
  *tcp基础面试中挺有用的
@@ -24,33 +36,71 @@ func main(){
 			return
 		}
 
+		server := &Server{
+			conn:conn,
+			receverMsg:make(chan string,0),
+			writeMsg:make(chan string,0),
+		}
+
+		fmt.Println("server conning")
+
 		//maybe online func
 
 		//握手过程 其实也是消息互通的过程
-		HandleClientConn(conn)
+		HandleClientConn(server)
 	}
 }
 
 //HandleClientConn -
-func HandleClientConn(conn net.Conn){
+func HandleClientConn(server *Server){
 	//三大法宝 1.读取数据 2.处理 3.写数据
-	go ReadLoop(conn)
-	go HandleMessageLoop(conn)
-	go WriteLoop(conn)
+	go ReadLoop(server)
+	go HandleMessageLoop(server)
+	go WriteLoop(server)
 }
 
 //读取数据
-func ReadLoop(conn net.Conn){
+func ReadLoop(server *Server){
 
 	//maybe set timeout
+	for{
+		buf := make([]byte,1024)
+		n,err :=server.conn.Read(buf)
+		if err != nil{
+			server.conn.Close()
+			return
+		}
 
+		msg := string(buf[:n])
+		server.receverMsg <-  msg
+	}
 }
 
-func HandleMessageLoop(conn net.Conn){
+//处理数据
+func HandleMessageLoop(server *Server){
 
+	for{
+		select {
+			case receverMsg := <- server.receverMsg:
+				//deal receverMsg
+
+				resMsg :=fmt.Sprintf("接收到数据,deal %v",receverMsg)
+				server.writeMsg <- resMsg
+		}
+	}
 }
 
 //写数据
-func WriteLoop(conn net.Conn){
-
+func WriteLoop(server *Server){
+	//maybe set timeout
+	for{
+			select{
+				case writeMsg := <-  server.writeMsg:
+					wb := []byte(writeMsg)
+					_,err :=server.conn.Write(wb)
+					if err != nil{
+						server.conn.Close()
+					}
+			}
+	}
 }
