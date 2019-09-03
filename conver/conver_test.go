@@ -18,9 +18,7 @@ func TestConverStruct(t *testing.T){
 	t.Logf("%v",putResponse)
 }
 
-
-
-//interface{}
+//interface{} gres.(*pb.CreateGroupRes)
 
 
 
