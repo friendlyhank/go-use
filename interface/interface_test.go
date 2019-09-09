@@ -133,13 +133,13 @@ func TestMoreInterface1(t *testing.T){
 	t.Logf("Result：%v",id)
 }
 
-//(2)这种方式只会输出一个Put
+//(2)这种方式只会输出一个,KvClient2 Put
 type KvClient2 interface{
 	Put(id int64)int64
 }
 
 type kvClient2 struct{
-	KvClient
+	KvClient2
 	Name string
 }
 
@@ -153,7 +153,7 @@ func (kv *kvClient2)Put(id int64)int64{
 type key2 struct{
 }
 
-func NewKvClient2()KvClient{
+func NewKvClient2()KvClient2{
 	return &key2{}
 }
 
@@ -177,22 +177,20 @@ type KvClient3 interface{
 }
 
 type kvClient3 struct{
-	KvClient
+	KvClient3
 	Name string
 }
 
 func (kv *kvClient3)Put(id int64)int64{
 	//加10做测试
-	id += 10
 	fmt.Println(id)
-	id -= 10
-	return kv.Put(id)
+	return kv.KvClient3.Put(id)
 }
 
 type key3 struct{
 }
 
-func NewKvClient3()KvClient{
+func NewKvClient3()KvClient3{
 	return &key3{}
 }
 
