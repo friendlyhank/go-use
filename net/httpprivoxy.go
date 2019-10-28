@@ -48,7 +48,7 @@ func handleClientRequest(client net.Conn){
 	var b [1024]byte
 	n,err := client.Read(b[:])
 	if err != nil{
-		fmt.Println("|字节数|%v|%v",n,string(b[:]))
+		fmt.Sprintf("|字节数|%v|%v",n,string(b[:]))
 		log.Println(err)
 		return
 	}
@@ -60,7 +60,7 @@ func handleClientRequest(client net.Conn){
 
 	hostPortURL,err :=url.Parse(host)
 	if err != nil{
-		fmt.Println("|字节数|%v|%v",n,string(b[:]))
+		fmt.Sprintf("|字节数|%v|%v",n,string(b[:]))
 		fmt.Println("host:",host)
 		log.Println(err)
 		return

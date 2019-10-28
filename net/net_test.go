@@ -3,6 +3,7 @@ package net
 import (
 	"bufio"
 	"net"
+	"net/url"
 	"testing"
 	"time"
 )
@@ -62,4 +63,15 @@ func TestNetDialTimeOut(t *testing.T){
 	t.Logf("%v",status)
 }
 
+func TestNetQueryUnescape(t *testing.T){
+	host := "http://www.baidu.com/log.gif?data={%22bid%22:100022,%22sid%22:101235}"
+	str,_ := url.QueryUnescape(host)
+	t.Logf("%v",str)
+}
+
+func TestNet(t *testing.T){
+	host := `http://www.baidu.com/log.gif?data={"bid":100022,"sid":101235}`
+	str:= url.QueryEscape(host)
+	t.Logf("%v",str)
+}
 
