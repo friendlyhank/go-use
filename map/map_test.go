@@ -16,7 +16,6 @@ func TestMakeMapIsNil(t *testing.T){
 }
 
 
-
 type mapOids map[int64]bool
 
 func (mo mapOids)FindMapOids(){

@@ -18,3 +18,10 @@ func TestFileExt(t *testing.T){
 
 	t.Logf("%v",exr)
 }
+
+//TestFileName- 获取文件名和路径中目录
+func TestFileName(t *testing.T){
+	dir := "E:\\data\\test.txt"
+	_,file := filepath.Split(dir)
+	t.Logf("%v",file)
+}
