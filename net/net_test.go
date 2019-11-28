@@ -3,7 +3,6 @@ package net
 import (
 	"bufio"
 	"net"
-	"net/url"
 	"testing"
 	"time"
 )
@@ -63,15 +62,59 @@ func TestNetDialTimeOut(t *testing.T){
 	t.Logf("%v",status)
 }
 
-func TestNetQueryUnescape(t *testing.T){
-	host := "http://www.baidu.com/log.gif?data={%22bid%22:100022,%22sid%22:101235}"
-	str,_ := url.QueryUnescape(host)
-	t.Logf("%v",str)
-}
+//获取IP地址
+func TestInterfaceAddrs(t *testing.T){
+	addrs,_ := net.InterfaceAddrs()
 
-func TestNet(t *testing.T){
-	host := `http://www.baidu.com/log.gif?data={"bid":100022,"sid":101235}`
-	str:= url.QueryEscape(host)
-	t.Logf("%v",str)
+	for _,address := range addrs{
+		ipnet, ok := address.(*net.IPNet)
+		if !ok {
+			continue
+		}
+
+		isUnspecified := ipnet.IP.IsUnspecified()
+		if isUnspecified{
+			t.Logf("%v","isUnspecified")
+			t.Logf("地址%v",ipnet.IP.String())
+		}
+
+		//是否环回地址
+		isLoopback :=ipnet.IP.IsLoopback()
+		if isLoopback{
+			t.Logf("%v","isLoopback")
+			t.Logf("回环地址%v",ipnet.IP.String())
+		}
+
+		//多播地址
+		isMulticast := ipnet.IP.IsMulticast()
+		if isMulticast{
+			t.Logf("%v","isMulticast")
+			t.Logf("地址%v",ipnet.IP.String())
+		}
+
+		isInterfaceLocalMulticast := ipnet.IP.IsInterfaceLocalMulticast()
+		if isInterfaceLocalMulticast{
+			t.Logf("%v","isInterfaceLocalMulticast")
+		}
+
+		isLinkLocalMulticast := ipnet.IP.IsLinkLocalMulticast()
+		if isLinkLocalMulticast{
+			t.Logf("%v","isLinkLocalMulticast")
+			t.Logf("地址%v",ipnet.IP.String())
+		}
+
+		isLinkLocalUnicast := ipnet.IP.IsLinkLocalUnicast()
+		if isLinkLocalUnicast{
+			t.Logf("%v","isLinkLocalUnicast")
+			strIp :=ipnet.IP.String()
+			t.Logf("地址%v",strIp)
+		}
+		isGlobalUnicast := ipnet.IP.IsGlobalUnicast()
+		if isGlobalUnicast{
+			t.Logf("%v","isGlobalUnicast")
+			t.Logf("地址%v",ipnet.IP.String())
+		}
+
+	}
 }
 
