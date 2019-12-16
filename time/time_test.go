@@ -38,3 +38,11 @@ func TestTimeGetDay(t *testing.T){
 	day := time.Now().Day()
 	t.Logf("%v",day)
 }
+
+//TestTimeGetDate -
+func TestTimeGetDate(t *testing.T){
+	year,month,_ := time.Now().Date()
+	currentTime := time.Date(year,month,15,0,0,0,0,time.Local)
+	t.Logf("%v",currentTime)
+	t.Logf("%v",currentTime.Unix())
+}
