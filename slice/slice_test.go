@@ -4,13 +4,24 @@ import (
 	"testing"
 )
 
-//Slice复制切片
+type Student struct{
+	Name string
+	ID int64
+}
+
+//Slice复制切片(浅拷贝)
 func TestSliceCopy(t *testing.T){
-	enport :=[]string{"2379","2380"}
-	eps := make([]string, len(enport))
+	enport :=[]*Student{&Student{Name:"张三",ID:1}}
+	eps := make([]*Student, len(enport))
 	copy(eps,enport)
 
-	t.Logf("%v",eps)
+	for _,student := range eps{
+		student.Name = "小李"
+	}
+
+	for _,stu := range enport{
+		t.Logf("%+v",stu)
+	}
 }
 
 func DeleteSlice(a []int,num int) []int{
