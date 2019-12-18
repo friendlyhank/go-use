@@ -2,13 +2,10 @@ package reflect
 
 import (
 	"fmt"
-	"github.com/astaxie/beego/logs"
 	"reflect"
 	"testing"
 )
 
-
-//v.Kind的运用
 /**
 Invalid Kind = iota
 	Bool
@@ -38,6 +35,7 @@ Invalid Kind = iota
 	Struct
 	UnsafePointer
  */
+//TestReflectKind- 通过kind处理不同的分支
 func TestReflectKind(t *testing.T){
 	for _,v := range []interface{}{"hi",42,func(){}}{
 		//shitch v.Kind
@@ -52,162 +50,56 @@ func TestReflectKind(t *testing.T){
 	}
 }
 
-type MapsUser map[string]string
-
-
-
-//TestReflect -
-func TestReflect(t *testing.T){
-	//TODO interface
-	mapsUser := map[string]string{
-		"ID":"10000",
-		"Name":"Hank",
-		"Age":"18",
-	}
-
-	structUser := &struct {
-		ID string
-		Name string
-	}{
-		ID:"1111111",
-		Name:"2222222",
-	}
-
-	sa := "11111111"
-	ia := 151515115
-
-
-	mapUserValue := reflect.ValueOf(mapsUser)
-	structUserValue := reflect.ValueOf(structUser)
-	sav := reflect.ValueOf(sa)
-	iav := reflect.ValueOf(ia)
-
-	//(1)ValueOf用来获取输入参数接口中的数据的值，如果接口为空则返回0
-	fmt.Println("Print  =====valueof 打印的是值=====")
-	logs.Info("%v",mapUserValue)
-	logs.Info("%v",structUserValue)
-	logs.Info("%v",sav)
-	logs.Info("%v",iav)
-
-	//(2)TypeOf用来动态获取输入参数接口中的值的类型，如果接口为空则返回nil
-	mapt := reflect.TypeOf(mapsUser)
-	structt := reflect.TypeOf(structUser)
-	sat := reflect.TypeOf(sa)
-	iat := reflect.TypeOf(ia)
-
-	fmt.Println("Print  =====typeof 打印的是类型=====")
-	logs.Info("%v",mapt)
-	logs.Info("%v",structt)
-	logs.Info("%v",sat)
-	logs.Info("%v",iat)
-
-	//(3)
-	fmt.Println("Print  =====valueof Kind=====")
-	logs.Info("%v",mapUserValue.Kind())
-	logs.Info("%v",structUserValue.Kind())
-	logs.Info("%v",sav.Kind())
-	logs.Info("%v",iav.Kind())
-
-	//(4)
-	fmt.Println("Print  =====typeof Kind=====")
-	logs.Info("%v",mapt.Kind())
-	logs.Info("%v",structt.Kind())
-	logs.Info("%v",sat.Kind())
-	logs.Info("%v",iat.Kind())
-
-	//(5)
-	//valueof isnil
-	//如mapv.IsNil
-
-	//(6)
-	fmt.Println("Print  =====valueof Elem=====")
-	//logs.Info("%v",mapUserValue.Elem())//panic
-	logs.Info("%v",structUserValue.Elem())
-	//logs.Info("%v",sav.Elem())   //panic
-	//logs.Info("%v",iav.Elem())	//panic
-
-	//(7)
-	fmt.Println("Print  =====typeof Elem=====")
-	logs.Info("%v",mapt.Elem())
-	logs.Info("%v",structt.Elem())
-	//logs.Info("%v",sat.Elem())  //panic
-	//logs.Info("%v",iat.Elem())  //panic
-
-	//已知类型强制转换
-	fmt.Println("Print  =====valueof interface=====")
-	//转换的时候，如果转换的类型不完全符合，则直接panic，类型要求非常严格！
-	//转换的时候，要区分是指针还是指
-	convenmap := mapUserValue.Interface().(map[string]string)
-	logs.Info("%v",convenmap)
-
-	fmt.Println("Print  =====valueof NumField=====")
-	//(8)=====typeof interface===== NumField()
-	//logs.Info("%v",sat.NumField()) painc 这样获取元素是错误的
-
-	//logs.Info("%v",mapv.Elem().NumField())  //panic map获取不了下级元素
-	//hank-import
-	logs.Info("%+v",mapUserValue.MapKeys())
-
-	logs.Info("%v",structt.Elem().NumField())
-	//logs.Info("%v",sat.Elem().NumField())  //panic string没有下级元素，会异常
-	//logs.Info("%v",iat.Elem().NumField())  //panic int没有下级元素
-
-
-	fmt.Println("Print  =====valueof Filed=====")
-	//(9)key和value获取
-	//field := getType.Field(i)
-	//value := getValue.Field(i).Interface()
-	logs.Info("%v",structt.Elem().Field(0))
-
-
-	fmt.Println("Print  =====valueof MapIndex=====")
-	//hank-import如果是map
-	//mapv.MapIndex(key Value)
-	logs.Info("%v",mapUserValue.MapIndex(mapUserValue.MapKeys()[0]).String())
-
-
-	//(10)方法，方法个数
-	// getType.NumMethod()
-	//getType.Method(i)
-
-	//(11)方法的调用
-	// 一定要指定参数为正确的方法名
-	// 2. 先看看带有参数的调用方法
-	//methodValue := getValue.MethodByName("ReflectCallFuncHasArgs")
-	//args := []reflect.Value{reflect.ValueOf("wudebao"), reflect.ValueOf(30)}
-	//methodValue.Call(args)
-
-	// 一定要指定参数为正确的方法名
-	// 3. 再看看无参数的调用方法
-	//methodValue = getValue.MethodByName("ReflectCallFuncNoArgs")
-	//args = make([]reflect.Value, 0)
-	//methodValue.Call(args)
-
-	//(12)
-	logs.Info("%v",structt.Elem().NumField())
-	//logs.Info("%v",structt.NumField()) //painc 应该是下级元素的数量
+type HelloDemo struct{}
+func (h *HelloDemo)Do(){
+	fmt.Println("hello")
+}
+//TestMethodCallNoParam-无参数调用函数
+func TestMethodCallNoParam(t *testing.T){
+	hd := &HelloDemo{}
+	value := reflect.ValueOf(hd).MethodByName("Do")
+	fmt.Println(value)
 }
 
-func TestReflectAAA(t *testing.T) {
-	//maps := map[string]string{
-	//	"a": "1111111",
-	//	"b": "2222222",
-	//}
-
-	structs := &struct {
-		a string
-		b string
-	}{
-		a:"1111111",
-		b:"2222222",
-	}
-
-	//mapv := reflect.ValueOf(maps)
-	//structv := reflect.ValueOf(structs)
-	//
-	//mapt := reflect.TypeOf(maps)
-	structt := reflect.TypeOf(structs)
-
-	logs.Info("%v",structt.Elem().NumField())
-	logs.Info("%v",structt.NumField())
+type SayHello struct{}
+func (s *SayHello)Do(a int,b string){
+	fmt.Println("hello"+b,a)
 }
+
+//TestMethodCallWithParam- 带参数的函数调用
+func TestMethodCallWithParam(t *testing.T){
+
+	a := reflect.ValueOf(33)
+	b := reflect.ValueOf("word")
+
+	in := []reflect.Value{a,b}
+
+	sh := &SayHello{}
+	 reflect.ValueOf(sh).MethodByName("Do").Call(in)
+}
+
+type TagTest struct {
+	A int    `json:"aaa" test:"testaaa"`
+	B string `json:"bbb" test:"testbbb"`
+}
+
+//TestTagSetAndGet -struct tag 解析
+func TestTagGet(t *testing.T){
+	ts := TagTest{
+		A: 123,
+		B: "hello",
+	}
+	tt := reflect.TypeOf(ts)
+	for i := 0; i < tt.NumField(); i++ {
+		field := tt.Field(i)
+		fmt.Println("field",field)
+		if json, ok := field.Tag.Lookup("json"); ok {
+			fmt.Println(json)
+		}
+		//设置用Set
+		test := field.Tag.Get("test")
+		fmt.Println(test)
+	}
+}
+
+//TODO 深度复制
