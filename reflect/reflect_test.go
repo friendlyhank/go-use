@@ -52,6 +52,10 @@ func TestReflectKind(t *testing.T){
 	}
 }
 
+type MapsUser map[string]string
+
+
+
 //TestReflect -
 func TestReflect(t *testing.T){
 	mapsUser := map[string]string{
@@ -78,7 +82,7 @@ func TestReflect(t *testing.T){
 	iav := reflect.ValueOf(ia)
 
 	//(1)ValueOf用来获取输入参数接口中的数据的值，如果接口为空则返回0
-	fmt.Println("Print  =====valueof=====")
+	fmt.Println("Print  =====valueof 打印的是值=====")
 	logs.Info("%v",mapUserValue)
 	logs.Info("%v",structUserValue)
 	logs.Info("%v",sav)
@@ -90,7 +94,7 @@ func TestReflect(t *testing.T){
 	sat := reflect.TypeOf(sa)
 	iat := reflect.TypeOf(ia)
 
-	fmt.Println("Print  =====typeof=====")
+	fmt.Println("Print  =====typeof =====")
 	logs.Info("%v",mapt)
 	logs.Info("%v",structt)
 	logs.Info("%v",sat)
