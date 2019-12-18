@@ -58,6 +58,7 @@ type MapsUser map[string]string
 
 //TestReflect -
 func TestReflect(t *testing.T){
+	//TODO interface
 	mapsUser := map[string]string{
 		"ID":"10000",
 		"Name":"Hank",
@@ -94,7 +95,7 @@ func TestReflect(t *testing.T){
 	sat := reflect.TypeOf(sa)
 	iat := reflect.TypeOf(ia)
 
-	fmt.Println("Print  =====typeof =====")
+	fmt.Println("Print  =====typeof 打印的是类型=====")
 	logs.Info("%v",mapt)
 	logs.Info("%v",structt)
 	logs.Info("%v",sat)
@@ -120,7 +121,7 @@ func TestReflect(t *testing.T){
 
 	//(6)
 	fmt.Println("Print  =====valueof Elem=====")
-	//logs.Info("%v",mapv.Elem())
+	//logs.Info("%v",mapUserValue.Elem())//panic
 	logs.Info("%v",structUserValue.Elem())
 	//logs.Info("%v",sav.Elem())   //panic
 	//logs.Info("%v",iav.Elem())	//panic
