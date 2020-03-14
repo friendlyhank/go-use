@@ -4,8 +4,25 @@ import (
 	"testing"
 )
 
-//如何定义map
 type MapGoods map[string]string
+/*
+*map定义和初始化
+
+#定义map m
+var m map[string]int  //nil
+
+#初始化方式1 make
+m = make(map[string]int)
+
+#初始化方式2 花括号
+m = map[string]int{}
+
+#也可以直接赋值
+m = map[string]int{
+		"Tom":50,
+		"Mary":60,
+	}
+ */
 
 //TestQuoteMap- map是引用类型案例1
 func TestQuoteMap(t *testing.T){
