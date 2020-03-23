@@ -1,7 +1,10 @@
 package conver
 
 import (
+	"fmt"
+	"math/rand"
 	"testing"
+	"time"
 )
 
 //TODO HANK
@@ -20,7 +23,11 @@ func TestConverStruct(t *testing.T){
 	t.Logf("%v",putResponse)
 }
 
-//interface{} gres.(*pb.CreateGroupRes)
+//时间转化
+func TestTimeDuration(t *testing.T){
+	time.Sleep(time.Duration(rand.Intn(15)) * time.Second)
+	fmt.Println("时间转化成功")
+}
 
 
 
