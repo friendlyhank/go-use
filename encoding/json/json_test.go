@@ -1,10 +1,12 @@
 package json
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"strings"
 	"testing"
+	"time"
 )
 
 //编解码时忽略指定某个字段
@@ -86,5 +88,57 @@ func TestJsonNumberForFloat64(t *testing.T){
 		panic(err)
 	}
 	fmt.Println(string(s2))
+}
+
+type doTime time.Time
+func (t *doTime)UnmarshalJSON(b []byte) error {
+	b = bytes.Trim(b, "\"")
+	dt,err  := time.Parse("2006-01-02 15:04:05",string(b))
+	if err != nil{
+		panic(err)
+	}
+	*t = doTime(dt)
+	return nil
+}
+
+func (t *doTime) MarshalJSON() ([]byte, error) {
+	str :=  fmt.Sprintf("\"%s\"",time.Time(*t).Format("2006-01-02 15:04:05"))
+	return []byte(str),nil
+}
+
+type UserInfo struct{
+	Name string `json:"name"`
+	Age int `json:"age,string"`
+	Address string `json:"address"`
+	LoginTime doTime `json:"logintime"`
+}
+
+/*
+   type UserInfo struct{
+		Name string `json:"name"`
+		Age int `json:"age,string"`
+		Address string `json:"address"`
+		LoginTime time.Time `json:"logintime"`
+	}
+	user := &UserInfo{Name: "123456",Age:18,LoginTime: time.Now()}
+	b,_ := json.Marshal(user)
+	fmt.Println(string(b))
+
+	user1 := &UserInfo{}
+	json.Unmarshal([]byte(b),user1)
+//有时候输出的并不是我们想要的数据
+{"name":"123456","age":"18","address":"","logintime":"2021-01-11T15:08:32.7838158+08:00"}
+ */
+func TestImplementsMarshaler(t *testing.T){
+	user := &UserInfo{Name: "123456",Age:18,LoginTime: doTime(time.Now())}
+	b,err := json.Marshal(user)
+	if err != nil{
+		t.Errorf("%v",err)
+	}
+	fmt.Println(string(b))
+
+	user1 := &UserInfo{}
+	json.Unmarshal([]byte(b),user1)
+	fmt.Println(time.Time(user1.LoginTime))
 }
 

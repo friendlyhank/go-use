@@ -52,6 +52,7 @@ func TestTimeGetDate(t *testing.T){
 func TestParseTime(t *testing.T){
 	//格式化时间
 	strTime :=time.Now().Format("2006-01-02 15:04:05")
+	fmt.Println(strTime)
 	//将格式化的时间再转化为时间
 	time,_ := time.Parse("2006-01-02 15:04:05",strTime)
 	fmt.Println(time)
