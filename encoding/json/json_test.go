@@ -142,3 +142,29 @@ func TestImplementsMarshaler(t *testing.T){
 	fmt.Println(time.Time(user1.LoginTime))
 }
 
+func (t *doTime)UnmarshalText(b []byte) error {
+	dt,err  := time.Parse("2006-01-02 15:04:05",string(b))
+	if err != nil{
+		panic(err)
+	}
+	*t = doTime(dt)
+	return nil
+}
+
+func (t *doTime) MarshalText() ([]byte, error) {
+	str := time.Time(*t).Format("2006-01-02 15:04:05")
+	return []byte(str),nil
+}
+func TestImplementsTextMarshaler(t *testing.T){
+	user := &UserInfo{Name: "123456",Age:18,LoginTime: doTime(time.Now())}
+	b,err := json.Marshal(user)
+	if err != nil{
+		t.Errorf("%v",err)
+	}
+	fmt.Println(string(b))
+
+	user1 := &UserInfo{}
+	json.Unmarshal([]byte(b),user1)
+	fmt.Println(time.Time(user1.LoginTime))
+}
+
