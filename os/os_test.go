@@ -8,7 +8,6 @@ import (
 )
 
 //=============================================os base=======================================
-
 //打开文件
 func TestOsOpen(t *testing.T){
 	dir, err := os.Open("../test.txt")
@@ -27,6 +26,13 @@ func TestOsOpen(t *testing.T){
 
 	//最后要关闭File资源
 	dir.Close()
+}
+
+func TestOsRemove(t *testing.T){
+	err := os.Remove("http://www.360doc.com/content/19/0724/14/33093582_850734929.shtml")
+	if err != nil{
+		t.Logf("%v",err)
+	}
 }
 
 //环境变量操作
@@ -117,7 +123,6 @@ func TestFileBasedPipe(t *testing.T){
 		}
 
 		t.Logf("%v",n)
-
 }
 
 

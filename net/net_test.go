@@ -21,7 +21,7 @@ func TestNetListen(t *testing.T){
 		t.Errorf("%v",err)
 	}
 
-	for{
+	//for{
 		//接收每个链接
 		conn,err := ln.Accept()
 		if err != nil{
@@ -36,7 +36,7 @@ func TestNetListen(t *testing.T){
 
 		//
 		t.Logf("%v",conn.RemoteAddr())
-	}
+	//}
 }
 
 //TestNetDial -Dial拨号功能连接服务器
