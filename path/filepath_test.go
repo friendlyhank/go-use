@@ -48,3 +48,9 @@ func TestFilepathAbs(t *testing.T) {
 	}
 	fmt.Println(abs)
 }
+
+// Test_FilePathBase - 获取路径的文件名部分
+func Test_FilePathBase(t *testing.T) {
+	path := filepath.Base("/Users/hank/go/src/github.com/friendlyhank/go-use/path/filepath_test.go")
+	fmt.Println(path)
+}
