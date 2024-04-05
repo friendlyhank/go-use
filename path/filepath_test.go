@@ -38,3 +38,13 @@ func TestFileName(t *testing.T) {
 	_, file := filepath.Split(dir)
 	t.Logf("%v", file)
 }
+
+// 获取文件的绝对路径
+func TestFilepathAbs(t *testing.T) {
+	abs, err := filepath.Abs("../test.txt")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(abs)
+}

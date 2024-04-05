@@ -36,6 +36,17 @@ func TestOsRemove(t *testing.T) {
 	}
 }
 
+// TestOsStat - 获取指定文件信息
+func TestOsStat(t *testing.T) {
+	info, err := os.Stat("../test.txt")
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(info)
+	fmt.Println(info.IsDir())
+}
+
 // TestExecutable - 返回可执行文件的路径
 func TestExecutable(t *testing.T) {
 	path, err := os.Executable()
