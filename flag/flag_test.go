@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"os"
 	"testing"
 )
@@ -14,4 +15,6 @@ func TestNewFlagSet(t *testing.T) {
 func TestVar(t *testing.T) {
 	os.Args = []string{"myprogram", "--list", "a,b,c"}
 	FlagVar()
+
+	flag.PrintDefaults()
 }

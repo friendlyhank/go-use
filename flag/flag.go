@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/astaxie/beego/logs"
+	"log"
 	"os"
 	"strings"
 )
@@ -39,7 +40,7 @@ func NewFlagSet() {
 	fs.Bool("version", false, "path to version")
 	err := fs.Parse(os.Args[1:])
 
-	logs.Info("%v", err)
+	log.Printf("%v", err)
 
 	//3.Help指令
 	if flag.ErrHelp == err {
