@@ -6,6 +6,7 @@ import (
 	"unicode/utf8"
 )
 
+// TestRuneError - 遍历输出非法字符
 func TestRuneError(t *testing.T) {
 	s := "x1f�"
 	for width := 0; len(s) > 0; s = s[width:] {
