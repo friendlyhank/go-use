@@ -12,6 +12,7 @@ func TestRuneError(t *testing.T) {
 	for width := 0; len(s) > 0; s = s[width:] {
 		r := rune(s[0])
 		width = 1
+		// 表示多字节utf-8,小于的表示ASCII（单字节）
 		if r >= utf8.RuneSelf {
 			r, width = utf8.DecodeRuneInString(s)
 		}
